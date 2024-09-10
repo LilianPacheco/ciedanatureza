@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Espelho Esférico</title>
+    <link rel="stylesheet" href="./style.css">
+    <script>
+        function calcular() {
+            var f = parseFloat(document.getElementById('foco').value)
+            var p = parseFloat(document.getElementById('posicao').value)
+            var y = parseFloat(document.getElementById('altura').value)
+            
+            var tipoEspelho
+            var imagemEspelho = ''
+            
+            if (f > 0) {
+                tipoEspelho = "O espelho é côncavo."
+                imagemEspelho = '<img src="concavos.png" alt="Espelho Côncavo">'
+            } else if (f === 0) {
+                tipoEspelho = "O espelho é plano."
+                imagemEspelho = '<img src="plano.png" alt="Espelho Plano">'
+            } else if (f < 0) {
+                tipoEspelho = "O espelho é convexo."
+                imagemEspelho = '<img src="convexos.png" alt="Espelho Convexo">'
+            }
+
+            var posicaoMsg
+            if (p > 0) {
+                posicaoMsg = "Ok!"
+            } else {
+                posicaoMsg = "A posição não pode ser menor ou igual a zero."
+            }
+
+            var alturaMsg
+            if (y > 0) {
+                alturaMsg = 'O objeto está para cima.'
+            } else if (y === 0) {
+                alturaMsg = 'O objeto não existe.'
+            } else {
+                alturaMsg = 'O objeto está para baixo.'
+            }
+
+            var pLinha
+            var imagemTipo
+            if (p !== f) { 
+                pLinha = (f * p) / (p - f)
+                if (pLinha > 0) {
+                    imagemTipo = "A imagem é real."
+                } else if (pLinha < 0) {
+                    imagemTipo = "A imagem é virtual."
+                } else {
+                    imagemTipo = "A imagem é formada no infinito."
+                }
+            } else {
+                pLinha = "Erro: divisão por zero, porque posição é igual a foco."
+                imagemTipo = '<img src="erro.png" alt="erro">'
+               
+            }
+
+            document.getElementById('resultado').innerHTML = `
+                Tipo de espelho: ${tipoEspelho}<br>
+                ${imagemEspelho}<br>
+                ${posicaoMsg}<br>
+                ${alturaMsg}<br>
+                A nova posição da imagem (p') é: ${pLinha}<br>
+                ${imagemTipo}
+            `
+        }
+    </script>
+</head>
+<body>
+    <h1>Cálculo de Espelho Esférico</h1>
+    <form onsubmit="event.preventDefault(); calcular()">
+        <label for="foco">Foco (f):</label>
+        <input type="number" id="foco" name="foco" step="any" required><br><br>
+
+        <label for="posicao">Posição (p):</label>
+        <input type="number" id="posicao" name="posicao" step="any" required><br><br>
+
+        <label for="altura">Altura (y):</label>
+        <input type="number" id="altura" name="altura" step="any" required><br><br>
+
+        <button type="submit">Calcular</button>
+    </form>
+
+    <h2>Resultado</h2>
+    <div id="resultado"></div>
+</body>
+</html>
